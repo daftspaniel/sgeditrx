@@ -1,35 +1,41 @@
 import React from "react"
+import { useSelector } from "react-redux"
 import "./App.css"
 
 import Palette from "./Components/Palette"
+import CharacterSelection from "./Components/CharacterSelection"
 import { getCellDimensions } from "./Common/getCellDimensions"
 
 const App = () => {
+  const primaryCharacter = useSelector((state) => state.primaryCharacter)
   return (
     <div className="App">
       <canvas
         id="sgscreen"
         className="tcanvas"
-        onMouseDown={canvasClickHandler}
+        onMouseDown={(e) =>
+          canvasClickHandler(e, primaryCharacter)
+        }
         onMouseMove={mouseMoveHandler}
         width={512}
         height={384}
       ></canvas>
+      <CharacterSelection/>
       <Palette range={{ start: 0, end: 128 }} />
       <Palette range={{ start: 128, end: 256 }} />
     </div>
   )
 }
 
-const mouseMoveHandler = (e) =>{
+const mouseMoveHandler = (e) => {
   const rect = e.target.getBoundingClientRect()
   const mx = e.clientX - rect.left
   const my = e.clientY - rect.top
-  console.log('Moving',mx,my)
+  console.log("Moving", mx, my)
 }
 
-const canvasClickHandler = (e) => {
-  const b1 = document.getElementById("41")
+const canvasClickHandler = (e, primaryCharacter) => {
+  const b1 = document.getElementById(primaryCharacter)
   const canvas = document.getElementById("sgscreen")
   const context = canvas.getContext("2d")
   context.imageSmoothingEnabled = false

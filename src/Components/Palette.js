@@ -1,5 +1,6 @@
 import React from "react"
 import { getCellDimensions } from "../Common/getCellDimensions"
+import { setPrimaryChar} from "../State/ScreenActions"
 
 const Palette = (props) => {
   const { w, h } = getCellDimensions()
@@ -16,6 +17,7 @@ const Palette = (props) => {
           key={char}
           style={{width:w,height:h}}
           src={`img/${parseInt(char).toString(16)}.jpg`}
+          onClick={()=>setPrimaryChar(char)}
         />
       ))}
     </div>
