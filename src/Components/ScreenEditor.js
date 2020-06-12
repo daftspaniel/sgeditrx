@@ -1,10 +1,12 @@
 import React from "react"
 import { useSelector } from "react-redux"
-import { getCellDimensions } from "./Common/getCellDimensions"
+
+import { getCellDimensions } from "../Common/getCellDimensions"
 
 const ScreenEditor = () => {
   const primaryCharacter = useSelector((state) => state.primaryCharacter)
   const secondaryCharacter = useSelector((state) => state.secondaryCharacter)
+  
   return (
     <div>
       <canvas
