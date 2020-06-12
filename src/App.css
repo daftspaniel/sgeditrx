@@ -1,16 +1,48 @@
+body {
+  background-color: darkcyan
+}
+
 .App {
- /* display: flex; */
+  display: flex;
   flex-direction: row;
   text-align: center;
 }
 
 .Palette {
   display: "flex";
-  border: 1px solid black;
-  width: 128px;
-  background-color: tomato;
+  /* border: 1px solid black; */
+  width: 156px;
+  margin: 10px;
+  /* margin-top: 10px; */
 }
 
 .tcanvas {
+  margin-top: 50px;
   border: 1px solid black;
+}
+
+.Palettes {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  background-color: burlywood;
+}
+
+.CharacterSelection {
+  width: 100px;
+  border: 1px solid black;
+}
+
+.CharacterChoices {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.RHSPanel {
+  margin-left: 50px;
+}
+
+.LHSPanel {
+  width: 200px;
 }

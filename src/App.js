@@ -8,21 +8,44 @@ import { getCellDimensions } from "./Common/getCellDimensions"
 
 const App = () => {
   const primaryCharacter = useSelector((state) => state.primaryCharacter)
+  const secondaryCharacter = useSelector((state) => state.secondaryCharacter)
   return (
     <div className="App">
-      <canvas
-        id="sgscreen"
-        className="tcanvas"
-        onMouseDown={(e) =>
-          canvasClickHandler(e, primaryCharacter)
-        }
-        onMouseMove={mouseMoveHandler}
-        width={512}
-        height={384}
-      ></canvas>
-      <CharacterSelection/>
-      <Palette range={{ start: 0, end: 128 }} />
-      <Palette range={{ start: 128, end: 256 }} />
+      <div className="LHSPanel"></div>
+
+      <div>
+        <canvas
+          id="sgscreen"
+          className="tcanvas"
+          onMouseUp={(e) => {
+            console.log(e)
+          }}
+          onMouseDown={(e) => {
+            console.log(e)
+            console.log(e.button)
+            if (e.button === 2) canvasClickHandler(e, secondaryCharacter)
+            else if (e.button === 0) canvasClickHandler(e, primaryCharacter)
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault()
+          }}
+          onMouseMove={mouseMoveHandler}
+          width={512}
+          height={384}
+        ></canvas>
+      </div>
+
+      <div className="RHSPanel">
+        <CharacterSelection />
+
+        <div className="Palettes">
+          <Palette range={{ start: 128, end: 256 }} />
+          <Palette
+            range={{ start: 0, end: 128 }}
+            style={{ position: "absolute", top: 10, left: 1024 }}
+          />
+        </div>
+      </div>
     </div>
   )
 }
