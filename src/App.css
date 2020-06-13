@@ -1,5 +1,5 @@
 body {
-  background-color: darkcyan
+  background-color: darkcyan;
 }
 
 .App {
@@ -16,8 +16,12 @@ body {
   /* margin-top: 10px; */
 }
 
-.tcanvas {
+.CenterPanel {
   margin-top: 50px;
+}
+
+.tcanvas {
+  margin: 10px;
   border: 1px solid black;
 }
 
@@ -29,8 +33,8 @@ body {
 }
 
 .CharacterSelection {
-  width: 100px;
-  border: 1px solid black;
+  margin-top: 5px;
+  width: 50px;
 }
 
 .CharacterChoices {
@@ -40,7 +44,7 @@ body {
 }
 
 .RHSPanel {
-  margin-left: 50px;
+  margin: 10px;
 }
 
 .LHSPanel {
@@ -49,4 +53,20 @@ body {
 
 .AppTitle {
   margin-top: 100px;
+}
+
+.LHSPanelContainer {
+  margin: 10px;
+}
+
+.ButtonColumn {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-left: 10px;
+}
+
+.ControlButton {
+  width: 150px;
+  margin-top: 5px;
 }
