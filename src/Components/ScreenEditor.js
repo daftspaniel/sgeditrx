@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useSelector } from "react-redux"
 
 import Card from "@material-ui/core/Card"
@@ -11,6 +11,33 @@ const mouseState = { leftButtonDown: false, rightButtonDown: false }
 const ScreenEditor = () => {
   const primaryCharacter = useSelector((state) => state.primaryCharacter)
   const secondaryCharacter = useSelector((state) => state.secondaryCharacter)
+  const screenData = useSelector((state) => state.screenData)
+  console.log(screenData)
+  useEffect(() => {
+    if (!screenData) return
+    const canvas = document.getElementById("sgscreen")
+    const context = canvas.getContext("2d")
+    context.fillRect(99, 99, 2, 2)
+    console.log("asdf")
+
+    let c = 128
+    const b1 = document.getElementById(c)
+
+    for (let j = 0; j < 16; j++) {
+      for (let i = 0; i < 32; i++) {
+        const x = i * 16
+        const y = j * 24
+        //console.log(screenData[i][j])
+        //&& screenData[i] && document.getElementById(screenData[i][j].value) !== null
+        if (screenData ) {
+          const ch = screenData[i][j].value
+          console.log(ch)
+          console.log(document.getElementById(ch))
+          if (document.getElementById(ch)) context.drawImage(document.getElementById(ch), x, y)
+        }
+      }
+    }
+  }, [screenData])
 
   return (
     <div>

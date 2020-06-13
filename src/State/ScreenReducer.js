@@ -1,5 +1,12 @@
 import { ACTIONS } from "./ScreenActions"
-const initialState = { primaryCharacter: 1, secondaryCharacter: 2, mode: "sg4" }
+import { buildGrid } from "../Lib/Util"
+
+const initialState = {
+  primaryCharacter: 1,
+  secondaryCharacter: 2,
+  mode: "sg4",
+  screenData: buildGrid(32, 16, "8f"),
+}
 
 export const screenReducer = function (state, action) {
   switch (action.type) {
