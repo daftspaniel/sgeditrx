@@ -1,14 +1,15 @@
 import React from "react"
 import { useDispatch } from "react-redux"
-import { getCellDimensions } from "../Common/getCellDimensions"
+import { SG4 } from "../Common/ScreenModes"
 import { setPrimaryChar, setSecondaryChar } from "../State/ScreenActions"
 import { intToHex } from "../Lib/Util"
 
 const Palette = (props) => {
-  const { w, h } = getCellDimensions()
+  const w = SG4.width
+  const h = SG4.height
+  const chars = []
   const dispatch = useDispatch()
 
-  let chars = []
   for (let i = props.range.start; i < props.range.end; i++) {
     chars.push(i)
   }

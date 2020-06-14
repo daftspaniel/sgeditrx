@@ -1,11 +1,12 @@
 import { ACTIONS } from "./ScreenActions"
 import { buildGrid } from "../Lib/Util"
+import { SG4 } from "../Common/ScreenModes"
 
 const initialState = {
   primaryCharacter: 1,
   secondaryCharacter: 2,
-  mode: "sg4",
-  screenData: buildGrid(32, 16, "8f"),
+  screenData: buildGrid(SG4.columns, SG4.rows, SG4.defaultCharacter),
+  ...SG4
 }
 
 export const screenReducer = function (state, action) {

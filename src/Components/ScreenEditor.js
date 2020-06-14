@@ -14,6 +14,7 @@ const ScreenEditor = () => {
   const primaryCharacter = useSelector((state) => state.primaryCharacter)
   const secondaryCharacter = useSelector((state) => state.secondaryCharacter)
   const screenData = useSelector((state) => state.screenData)
+  const modeDescription = useSelector((state) => state.modeDescription)
 
   useEffect(() => {
     if (!screenData) return
@@ -39,7 +40,7 @@ const ScreenEditor = () => {
   return (
     <div>
       <Card className="CenterPanel" elevation={12}>
-        <CardHeader title="SG4 - 32 by 16" />
+        <CardHeader title={modeDescription} />
         <canvas
           id="sgscreen"
           className="tcanvas"
