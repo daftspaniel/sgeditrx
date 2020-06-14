@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import Card from "@material-ui/core/Card"
 import { CardHeader } from "@material-ui/core"
 import { getElementClickXY } from "../Common/ScreenHelpers"
-import { setChar, setSecondaryChar } from "../State/ScreenActions"
+import { setChar } from "../State/ScreenActions"
 
 const mouseState = { leftButtonDown: false, rightButtonDown: false }
 let canvas = null
