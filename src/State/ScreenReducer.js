@@ -6,11 +6,16 @@ const initialState = {
   primaryCharacter: 1,
   secondaryCharacter: 2,
   screenData: buildGrid(SG4.columns, SG4.rows, SG4.defaultCharacter),
-  ...SG4
+  ...SG4,
 }
 
 export const screenReducer = function (state, action) {
   switch (action.type) {
+    case ACTIONS.SET_CHAR:
+      const screenData = state.screenData
+      const {data} = action
+      screenData[action.data.x][action.data.y].value = data.value
+      return save({ ...state, screenData })
     case ACTIONS.SET_PRIMARY_CHAR:
       return save({ ...state, primaryCharacter: action.newCharacter })
     case ACTIONS.SET_SECONDARY_CHAR:

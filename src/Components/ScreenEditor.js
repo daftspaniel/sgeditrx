@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
 import Card from "@material-ui/core/Card"
 import { CardHeader } from "@material-ui/core"
-
 import { getElementClickXY } from "../Common/ScreenHelpers"
+import { setChar, setSecondaryChar } from "../State/ScreenActions"
 
 const mouseState = { leftButtonDown: false, rightButtonDown: false }
 let canvas = null
@@ -15,6 +15,7 @@ const ScreenEditor = () => {
   const secondaryCharacter = useSelector((state) => state.secondaryCharacter)
   const screenData = useSelector((state) => state.screenData)
   const modeDescription = useSelector((state) => state.modeDescription)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!screenData) return
@@ -23,7 +24,7 @@ const ScreenEditor = () => {
       context = canvas.getContext("2d")
       context.imageSmoothingEnabled = false
     }
-    
+
     for (let j = 0; j < 16; j++) {
       for (let i = 0; i < 32; i++) {
         const x = i * 16
@@ -54,10 +55,10 @@ const ScreenEditor = () => {
           onMouseDown={(e) => {
             if (e.button === 2) {
               mouseState.rightButtonDown = true
-              canvasClickHandler(e, secondaryCharacter)
+              canvasClickHandler(e, dispatch, secondaryCharacter)
             } else if (e.button === 0) {
               mouseState.leftButtonDown = true
-              canvasClickHandler(e, primaryCharacter)
+              canvasClickHandler(e, dispatch, primaryCharacter)
             }
           }}
           onMouseLeave={(e) => {
@@ -68,7 +69,7 @@ const ScreenEditor = () => {
             e.preventDefault()
           }}
           onMouseMove={(e) =>
-            mouseMoveHandler(e, primaryCharacter, secondaryCharacter)
+            mouseMoveHandler(e, dispatch, primaryCharacter, secondaryCharacter)
           }
           width={512}
           height={384}
@@ -78,22 +79,35 @@ const ScreenEditor = () => {
   )
 }
 
-const mouseMoveHandler = (e, primaryCharacter, secondaryCharacter) => {
-  let selectedChar
+const mouseMoveHandler = (
+  e,
+  dispatch,
+  primaryCharacter,
+  secondaryCharacter
+) => {
+  let image, character
   if (mouseState.leftButtonDown) {
-    selectedChar = document.getElementById(primaryCharacter)
+    image = document.getElementById(primaryCharacter)
+    character = primaryCharacter
   } else if (mouseState.rightButtonDown) {
-    selectedChar = document.getElementById(secondaryCharacter)
+    image = document.getElementById(secondaryCharacter)
+    character = secondaryCharacter
   }
-  if (!selectedChar) return
-  const pos = getElementClickXY(e, 16, 24)
-  context.drawImage(selectedChar, pos.x, pos.y)
+  if (!image) return
+  drawChar(e, dispatch, image, character)
 }
 
-const canvasClickHandler = (e, primaryCharacter) => {
-  const selectedChar = document.getElementById(primaryCharacter)
-  const pos = getElementClickXY(e, 16, 24)
-  context.drawImage(selectedChar, pos.x, pos.y)
+const canvasClickHandler = (e, dispatch, character) => {
+  const image = document.getElementById(character)
+  drawChar(e, dispatch, image, character)
+}
+
+const drawChar = (e, dispatch, image, character) => {
+  const { pos, cellPos } = getElementClickXY(e, 16, 24)
+  if (cellPos.x < 32 && cellPos.y < 16) {
+    context.drawImage(image, pos.x, pos.y)
+    dispatch(setChar({ x: cellPos.x, y: cellPos.y, value: character }))
+  }
 }
 
 export default ScreenEditor
