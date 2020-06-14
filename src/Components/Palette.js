@@ -2,6 +2,7 @@ import React from "react"
 import { useDispatch } from "react-redux"
 import { getCellDimensions } from "../Common/getCellDimensions"
 import { setPrimaryChar, setSecondaryChar } from "../State/ScreenActions"
+import { intToHex } from "../Lib/Util"
 
 const Palette = (props) => {
   const { w, h } = getCellDimensions()
@@ -21,11 +22,11 @@ const Palette = (props) => {
     >
       {chars.map((char) => (
         <img
-          id={char}
+          id={intToHex(char)}
           alt={char}
           key={char}
           style={{ width: w, height: h, marginRight: 3 }}
-          src={`img/${parseInt(char).toString(16)}.jpg`}
+          src={`img/${intToHex(char)}.jpg`}
           onClick={() => dispatch(setPrimaryChar(char))}
           onContextMenu={(e) => {
             e.preventDefault()
