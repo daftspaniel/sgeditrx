@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import Card from "@material-ui/core/Card"
@@ -14,8 +14,13 @@ const ScreenEditor = () => {
   const primaryCharacter = useSelector((state) => state.primaryCharacter)
   const secondaryCharacter = useSelector((state) => state.secondaryCharacter)
   const screenData = useSelector((state) => state.screenData)
+  const [ screenDrawRequired, setScreenDrawRequired ] = useState(false)
   const modeDescription = useSelector((state) => state.modeDescription)
   const dispatch = useDispatch()
+
+  setTimeout(() => {
+    setScreenDrawRequired(true)
+  }, 500)
 
   useEffect(() => {
     if (!screenData) return
@@ -31,12 +36,15 @@ const ScreenEditor = () => {
         const y = j * 24
         if (screenData) {
           const ch = screenData[i][j].value
-          if (document.getElementById(ch))
+          if (document.getElementById(ch)) {
             context.drawImage(document.getElementById(ch), x, y)
+            setScreenDrawRequired(false)
+          }
+          else{setScreenDrawRequired(true)}
         }
       }
     }
-  }, [screenData])
+  }, [screenData, screenDrawRequired, setScreenDrawRequired])
 
   return (
     <div>
