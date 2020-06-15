@@ -3,5 +3,5 @@ export const SG4 = {
   rows: 16,
   modeName: "sg4",
   modeDescription: "SG4 - 32 by 16",
-  defaultCharacter:"8f"
+  defaultCharacter: 143
 }

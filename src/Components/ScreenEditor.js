@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import Card from "@material-ui/core/Card"
 import { CardHeader } from "@material-ui/core"
+
 import { getElementClickXY } from "../Common/ScreenHelpers"
 import { setChar } from "../State/ScreenActions"
+import { intToHex } from "../Lib/Util"
 
 const mouseState = { leftButtonDown: false, rightButtonDown: false }
 let canvas = null
@@ -14,16 +16,10 @@ const ScreenEditor = () => {
   const primaryCharacter = useSelector((state) => state.primaryCharacter)
   const secondaryCharacter = useSelector((state) => state.secondaryCharacter)
   const screenData = useSelector((state) => state.screenData)
-  const [ screenDrawRequired, setScreenDrawRequired ] = useState(false)
   const modeDescription = useSelector((state) => state.modeDescription)
   const dispatch = useDispatch()
 
   setTimeout(() => {
-    setScreenDrawRequired(true)
-  }, 500)
-
-  useEffect(() => {
-    if (!screenData) return
     if (!canvas) {
       canvas = document.getElementById("sgscreen")
       context = canvas.getContext("2d")
@@ -36,15 +32,17 @@ const ScreenEditor = () => {
         const y = j * 24
         if (screenData) {
           const ch = screenData[i][j].value
-          if (document.getElementById(ch)) {
-            context.drawImage(document.getElementById(ch), x, y)
-            setScreenDrawRequired(false)
+          const hex = intToHex(ch)
+          const img = document.getElementById(hex)
+          if (img) {
+            context.drawImage(img, x, y)
+          } else {
+            console.log("FAIL", ch)
           }
-          else{setScreenDrawRequired(true)}
         }
       }
     }
-  }, [screenData, screenDrawRequired, setScreenDrawRequired])
+  }, 500)
 
   return (
     <div>

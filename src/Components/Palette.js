@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux"
 import { SG4 } from "../Common/ScreenModes"
 import { setPrimaryChar, setSecondaryChar } from "../State/ScreenActions"
 import { intToHex } from "../Lib/Util"
+import CharacterSet from "../Common/CharacterSet"
 
 const Palette = (props) => {
   const w = SG4.width
@@ -27,7 +28,7 @@ const Palette = (props) => {
           alt={char}
           key={char}
           style={{ width: w, height: h, marginRight: 3 }}
-          src={`img/${intToHex(char)}.jpg`}
+          src={CharacterSet[intToHex(char)]}
           onClick={() => dispatch(setPrimaryChar(char))}
           onContextMenu={(e) => {
             e.preventDefault()
