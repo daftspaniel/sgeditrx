@@ -3,7 +3,7 @@ import { buildGrid } from "../Lib/Util"
 import { SG4 } from "../Common/ScreenModes"
 
 const transientInitialState = {
-  showClearDialog: true,
+  showingClearDialog: false,
 }
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
   secondaryCharacter: 2,
   screenData: buildGrid(SG4.columns, SG4.rows, SG4.defaultCharacter),
   ...SG4,
-  transient: transientInitialState
+  transient: transientInitialState,
 }
 
 export const screenReducer = function (state, action) {
@@ -25,6 +25,8 @@ export const screenReducer = function (state, action) {
       return save({ ...state, primaryCharacter: action.newCharacter })
     case ACTIONS.SET_SECONDARY_CHAR:
       return save({ ...state, secondaryCharacter: action.newCharacter })
+    case ACTIONS.SHOW_CLEAR_DIALOG:
+      return { ...state, transient: { showingClearDialog: true } }
     default:
       const isSavedState = localStorage.sgedit4State
       state = isSavedState

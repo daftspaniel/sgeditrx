@@ -36,8 +36,6 @@ const ScreenEditor = () => {
           const img = document.getElementById(hex)
           if (img) {
             context.drawImage(img, x, y)
-          } else {
-            console.log("FAIL", ch)
           }
         }
       }

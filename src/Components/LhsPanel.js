@@ -9,7 +9,8 @@ import { CardHeader } from "@material-ui/core"
 import ClearDialog from "../Dialogs/ClearDialog"
 
 const LhsPanel = () => {
-  const showClearDialog = useSelector((state) => state.showClearDialog)
+  const showClearDialog = useSelector((state) => state.transient.showingClearDialog)
+
   return (
     <Card className="LHSPanelContainer" elevation={12}>
       <CardHeader title="SGEDIT v4" subheader="The Retro Screen Designer" />
