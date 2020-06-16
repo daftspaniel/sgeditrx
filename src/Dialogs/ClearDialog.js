@@ -8,6 +8,10 @@ import MuiDialogActions from "@material-ui/core/DialogActions"
 import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
 import Typography from "@material-ui/core/Typography"
+import Radio from "@material-ui/core/Radio"
+import RadioGroup from "@material-ui/core/RadioGroup"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import FormControl from "@material-ui/core/FormControl"
 
 const styles = (theme) => ({
   root: {
@@ -53,20 +57,46 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions)
 
-export default function ClearDialog() {
+const handleChange = () => {
+  console.log("Popo")
+}
+
+export default function ClearDialog(props) {
   return (
     <div>
       <Dialog aria-labelledby="customized-dialog-title" open={true}>
         <DialogTitle id="customized-dialog-title">Clear Screen</DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="method"
+              name="clearMethod"
+              value={2}
+              onChange={handleChange}
+            >
+              <FormControlLabel value="0" control={<Radio />} label="CLS" />
+              <FormControlLabel
+                value="1"
+                control={<Radio />}
+                label="Clear with Byte"
+              />
+              <FormControlLabel
+                value="2"
+                control={<Radio />}
+                label="Test Card"
+              />
+            </RadioGroup>
+          </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus color="primary">
+          <Button
+            autoFocus
+            color="primary"
+            onClick={() => props.closeHandler()}
+          >
+            CANCEL
+          </Button>
+          <Button autoFocus color="primary" onClick={()=>props.actionHandler()}>
             CLEAR
           </Button>
         </DialogActions>

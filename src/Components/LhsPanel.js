@@ -1,4 +1,5 @@
 import React from "react"
+import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 
 import "../App.css"
@@ -7,16 +8,29 @@ import Button from "@material-ui/core/Button"
 import { CardHeader } from "@material-ui/core"
 
 import ClearDialog from "../Dialogs/ClearDialog"
+import {
+  showClearDialog,
+  hideClearDialog,
+  clearScreen,
+} from "../State/ScreenActions"
 
 const LhsPanel = () => {
-  const showClearDialog = useSelector((state) => state.transient.showingClearDialog)
+  const dispatch = useDispatch()
+
+  const displayClearDialog = useSelector(
+    (state) => state.transient.showingClearDialog
+  )
 
   return (
     <Card className="LHSPanelContainer" elevation={12}>
       <CardHeader title="SGEDIT v4" subheader="The Retro Screen Designer" />
       <div className="LHSPanel">
         <div className="ButtonColumn">
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => dispatch(showClearDialog())}
+          >
             Clear...
           </Button>
           <br />
@@ -24,7 +38,15 @@ const LhsPanel = () => {
             Export...
           </Button>
         </div>
-        {showClearDialog && <ClearDialog />}
+        {displayClearDialog && (
+          <ClearDialog
+            closeHandler={() => dispatch(hideClearDialog())}
+            actionHandler={() => {
+              dispatch(hideClearDialog())
+              dispatch(clearScreen())
+            }}
+          />
+        )}
       </div>
     </Card>
   )

@@ -27,6 +27,10 @@ export const screenReducer = function (state, action) {
       return save({ ...state, secondaryCharacter: action.newCharacter })
     case ACTIONS.SHOW_CLEAR_DIALOG:
       return { ...state, transient: { showingClearDialog: true } }
+    case ACTIONS.HIDE_CLEAR_DIALOG:
+      return { ...state, transient: { showingClearDialog: false } }
+    case ACTIONS.CLEAR_SCREEN:
+      return save({ ...state, screenData: getTestCard(state) })
     default:
       const isSavedState = localStorage.sgedit4State
       state = isSavedState
@@ -36,7 +40,24 @@ export const screenReducer = function (state, action) {
       return state
   }
 }
+
 const save = (newState) => {
   localStorage.sgedit4State = JSON.stringify(newState)
   return newState
+}
+
+const getTestCard = (state) => {
+  let char = 0
+
+  const data = buildGrid(SG4.columns, SG4.rows, SG4.defaultCharacter)
+
+  for (let y = 0; y < SG4.rows; y++) {
+    for (let x = 0; x < SG4.columns; x++) {
+      data[x][y].value = char
+      char++
+      if (char > 255) char = 0
+    }
+  }
+
+  return data
 }
