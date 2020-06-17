@@ -41,4 +41,4 @@ export const showClearDialog = () => _showClearDialog()
 
 export const hideClearDialog = () => _hideClearDialog()
 
-export const clearScreen = options => _clearScreen(options)
+export const clearScreen = (options) => _clearScreen(options)

@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
+
 import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
+import TextField from "@material-ui/core/TextField"
 import Dialog from "@material-ui/core/Dialog"
 import MuiDialogTitle from "@material-ui/core/DialogTitle"
 import MuiDialogContent from "@material-ui/core/DialogContent"
@@ -9,9 +11,21 @@ import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
 import Typography from "@material-ui/core/Typography"
 import Radio from "@material-ui/core/Radio"
-import RadioGroup from "@material-ui/core/RadioGroup"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
+import Select from "@material-ui/core/Select"
+import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
+
+const colours = [
+  { value: 0, colour: "#111111" },
+  { value: 1, colour: "#09ff08" },
+  { value: 2, colour: "#fdff41" },
+  { value: 3, colour: "#2110b6" },
+  { value: 4, colour: "#b50421" },
+  { value: 5, colour: "#ffffff" },
+  { value: 6, colour: "#09d773" },
+  { value: 7, colour: "#ff1cff" },
+  { value: 8, colour: "#ff4107" },
+]
 
 const styles = (theme) => ({
   root: {
@@ -57,35 +71,72 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions)
 
-const handleChange = () => {
-  console.log("Popo")
-}
-
 export default function ClearDialog(props) {
+  let [character, setCharacter] = useState(128)
+  let [selection, setSelection] = useState("0")
+  let [cls, setCls] = useState(0)
+  const handleChange = (e) => setSelection(e.target.value)
+  const handleClsChange = (e) => {
+    setCls(e.target.value)
+  }
+
   return (
     <div>
       <Dialog aria-labelledby="customized-dialog-title" open={true}>
         <DialogTitle id="customized-dialog-title">Clear Screen</DialogTitle>
         <DialogContent dividers>
           <FormControl component="fieldset">
-            <RadioGroup
-              aria-label="method"
-              name="clearMethod"
-              value={2}
-              onChange={handleChange}
-            >
-              <FormControlLabel value="0" control={<Radio />} label="CLS" />
-              <FormControlLabel
+            <div className={""}>
+              <Radio
+                checked={selection === "0"}
+                onChange={handleChange}
+                value="0"
+                name="cwb-test-card"
+              />
+              CLS
+              <div className={""}>
+                <Select
+                  value={cls}
+                  onChange={handleClsChange}
+                  style={{ width: 100, backgroundColor: colours[cls].colour }}
+                >
+                  {colours.map((colour) => {
+                    return (
+                      <MenuItem
+                        key={colour.value}
+                        value={colour.value}
+                        style={{ width: 100, backgroundColor: colour.colour }}
+                      >
+                        &nbsp;{"CLS"}
+                      </MenuItem>
+                    )
+                  })}
+                </Select>
+              </div>
+            </div>
+            <div>
+              <Radio
+                checked={selection === "1"}
+                onChange={handleChange}
                 value="1"
-                control={<Radio />}
-                label="Clear with Byte"
+                name="cwb-test-card"
               />
-              <FormControlLabel
+              Clear with Byte{" "}
+              <TextField
+                id="standard-basic"
+                value={character}
+                onChange={(e) => setCharacter(e.target.value)}
+              />
+            </div>
+            <div>
+              <Radio
+                checked={selection === "2"}
+                onChange={handleChange}
                 value="2"
-                control={<Radio />}
-                label="Test Card"
+                name="rb-test-card"
               />
-            </RadioGroup>
+              Test Card
+            </div>
           </FormControl>
         </DialogContent>
         <DialogActions>
@@ -96,7 +147,14 @@ export default function ClearDialog(props) {
           >
             CANCEL
           </Button>
-          <Button autoFocus color="primary" onClick={()=>props.actionHandler()}>
+          <Button
+            autoFocus
+            color="primary"
+            onClick={() => {
+              const options = { method: selection, character }
+              props.actionHandler(options)
+            }}
+          >
             CLEAR
           </Button>
         </DialogActions>

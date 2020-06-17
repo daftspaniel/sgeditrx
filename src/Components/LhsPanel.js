@@ -7,12 +7,8 @@ import Card from "@material-ui/core/Card"
 import Button from "@material-ui/core/Button"
 import { CardHeader } from "@material-ui/core"
 
-import ClearDialog from "../Dialogs/ClearDialog"
-import {
-  showClearDialog,
-  hideClearDialog,
-  clearScreen,
-} from "../State/ScreenActions"
+import ClearDialogContainer from "../Dialogs/ClearDialogContainer"
+import { showClearDialog } from "../State/ScreenActions"
 
 const LhsPanel = () => {
   const dispatch = useDispatch()
@@ -38,15 +34,7 @@ const LhsPanel = () => {
             Export...
           </Button>
         </div>
-        {displayClearDialog && (
-          <ClearDialog
-            closeHandler={() => dispatch(hideClearDialog())}
-            actionHandler={() => {
-              dispatch(hideClearDialog())
-              dispatch(clearScreen())
-            }}
-          />
-        )}
+        {displayClearDialog && <ClearDialogContainer />}
       </div>
     </Card>
   )
