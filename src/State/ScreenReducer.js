@@ -1,6 +1,7 @@
 import { ACTIONS } from "./ScreenActions"
 import { buildGrid } from "../Lib/Util"
 import { SG4 } from "../Common/ScreenModes"
+import { clearScreen} from "./screen-helper"
 
 const transientInitialState = {
   showingClearDialog: false,
@@ -30,13 +31,7 @@ export const screenReducer = function (state, action) {
     case ACTIONS.HIDE_CLEAR_DIALOG:
       return { ...state, transient: { showingClearDialog: false } }
     case ACTIONS.CLEAR_SCREEN:
-      let clearedScreen = state.screenData
-      if (action.options.method === "1") {
-        clearedScreen = getClearScreen(action.options.character)
-      } else if (action.options.method === "2") {
-        clearedScreen = getTestCard(state)
-      }
-      return save({ ...state, screenData: clearedScreen })
+      return save({ ...state, screenData: clearScreen(action) })
     default:
       const isSavedState = localStorage.sgedit4State
       state = isSavedState
@@ -51,23 +46,4 @@ const save = (newState) => {
   newState.transient = transientInitialState
   localStorage.sgedit4State = JSON.stringify(newState)
   return newState
-}
-
-const getClearScreen = (character) =>
-  buildGrid(SG4.columns, SG4.rows, character)
-
-const getTestCard = (state) => {
-  let char = 0
-
-  const data = buildGrid(SG4.columns, SG4.rows, SG4.defaultCharacter)
-
-  for (let y = 0; y < SG4.rows; y++) {
-    for (let x = 0; x < SG4.columns; x++) {
-      data[x][y].value = char
-      char++
-      if (char > 255) char = 0
-    }
-  }
-
-  return data
 }
