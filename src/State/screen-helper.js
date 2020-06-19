@@ -21,6 +21,9 @@ export const getTestCard = () => {
 }
 
 export const clearScreen = (action) => {
+  if (action.options.method === "0") {
+    return  getClearScreen(action.options.character)
+  } 
   if (action.options.method === "1") {
     return  getClearScreen(action.options.character)
   } 

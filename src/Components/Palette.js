@@ -25,6 +25,7 @@ const Palette = (props) => {
       {chars.map((char) => (
         <img
           id={intToHex(char)}
+          title={char}
           alt={char}
           key={char}
           style={{ width: w, height: h, marginRight: 3 }}

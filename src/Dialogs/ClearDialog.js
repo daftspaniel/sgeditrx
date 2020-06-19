@@ -16,15 +16,15 @@ import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
 
 const colours = [
-  { value: 0, colour: "#111111" },
-  { value: 1, colour: "#09ff08" },
-  { value: 2, colour: "#fdff41" },
-  { value: 3, colour: "#2110b6" },
-  { value: 4, colour: "#b50421" },
-  { value: 5, colour: "#ffffff" },
-  { value: 6, colour: "#09d773" },
-  { value: 7, colour: "#ff1cff" },
-  { value: 8, colour: "#ff4107" },
+  { value: 0, colour: "#111111", chr: 128 },
+  { value: 1, colour: "#09ff08", chr: 143 },
+  { value: 2, colour: "#fdff41", chr: 159 },
+  { value: 3, colour: "#2110b6", chr: 175 },
+  { value: 4, colour: "#b50421", chr: 191 },
+  { value: 5, colour: "#ffffff", chr: 207 },
+  { value: 6, colour: "#09d773", chr: 223 },
+  { value: 7, colour: "#ff1cff", chr: 239 },
+  { value: 8, colour: "#ff4107", chr: 255 },
 ]
 
 const styles = (theme) => ({
@@ -37,6 +37,10 @@ const styles = (theme) => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
+  },
+  option: {
+    display: "flex",
+    flexDirection: "row",
   },
 })
 
@@ -79,14 +83,18 @@ export default function ClearDialog(props) {
   const handleClsChange = (e) => {
     setCls(e.target.value)
   }
-
   return (
     <div>
       <Dialog aria-labelledby="customized-dialog-title" open={true}>
         <DialogTitle id="customized-dialog-title">Clear Screen</DialogTitle>
         <DialogContent dividers>
           <FormControl component="fieldset">
-            <div className={""}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
               <Radio
                 checked={selection === "0"}
                 onChange={handleChange}
@@ -121,7 +129,7 @@ export default function ClearDialog(props) {
                 value="1"
                 name="cwb-test-card"
               />
-              Clear with Byte{" "}
+              Clear with Byte
               <TextField
                 id="standard-basic"
                 value={character}
@@ -152,6 +160,7 @@ export default function ClearDialog(props) {
             color="primary"
             onClick={() => {
               const options = { method: selection, character }
+              if (selection === "0") options.character = colours[cls].chr
               props.actionHandler(options)
             }}
           >
