@@ -38,10 +38,6 @@ const styles = (theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
-  option: {
-    display: "flex",
-    flexDirection: "row",
-  },
 })
 
 const DialogTitle = withStyles(styles)((props) => {
@@ -75,10 +71,19 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions)
 
+const optionStyle = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+}
+
+const labelStyle = { maxWidth: 100, minWidth: 100 }
+
 export default function ClearDialog(props) {
   let [character, setCharacter] = useState(128)
   let [selection, setSelection] = useState("0")
-  let [cls, setCls] = useState(0)
+  let [cls, setCls] = useState(1)
   const handleChange = (e) => setSelection(e.target.value)
   const handleClsChange = (e) => {
     setCls(e.target.value)
@@ -89,20 +94,15 @@ export default function ClearDialog(props) {
         <DialogTitle id="customized-dialog-title">Clear Screen</DialogTitle>
         <DialogContent dividers>
           <FormControl component="fieldset">
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
+            <div style={optionStyle}>
               <Radio
                 checked={selection === "0"}
                 onChange={handleChange}
                 value="0"
                 name="cwb-test-card"
               />
-              CLS
-              <div className={""}>
+              <div style={labelStyle}>CLS</div>
+              <div>
                 <Select
                   value={cls}
                   onChange={handleClsChange}
@@ -115,35 +115,37 @@ export default function ClearDialog(props) {
                         value={colour.value}
                         style={{ width: 100, backgroundColor: colour.colour }}
                       >
-                        &nbsp;{"CLS"}
+                        &nbsp;
                       </MenuItem>
                     )
                   })}
                 </Select>
               </div>
             </div>
-            <div>
+            <div style={optionStyle}>
               <Radio
                 checked={selection === "1"}
                 onChange={handleChange}
                 value="1"
                 name="cwb-test-card"
               />
-              Clear with Byte
+              <div style={labelStyle}>Fill</div>
               <TextField
                 id="standard-basic"
                 value={character}
                 onChange={(e) => setCharacter(e.target.value)}
+                style={{ maxWidth: 100 }}
               />
             </div>
-            <div>
+            <div style={optionStyle}>
               <Radio
                 checked={selection === "2"}
                 onChange={handleChange}
                 value="2"
                 name="rb-test-card"
               />
-              Test Card
+              <div style={{ minWidth: 100 }}>Test Card</div>
+              <div style={{ minWidth: 100 }}>&nbsp;</div>
             </div>
           </FormControl>
         </DialogContent>
