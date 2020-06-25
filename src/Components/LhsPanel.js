@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button"
 import { CardHeader } from "@material-ui/core"
 
 import ClearDialogContainer from "../Dialogs/ClearDialogContainer"
+import ExportDialogContainer from "../Dialogs/ExportDialogContainer"
 import { showClearDialog } from "../State/ScreenActions"
 
 const LhsPanel = () => {
@@ -15,6 +16,9 @@ const LhsPanel = () => {
 
   const displayClearDialog = useSelector(
     (state) => state.transient.showingClearDialog
+  )
+    const displayExportDialog = useSelector(
+    (state) => state.transient.displayExportDialog
   )
 
   return (
@@ -35,6 +39,7 @@ const LhsPanel = () => {
           </Button>
         </div>
         {displayClearDialog && <ClearDialogContainer />}
+        {displayExportDialog && <ExportDialogContainer />}
       </div>
     </Card>
   )
