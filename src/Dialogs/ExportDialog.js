@@ -1,4 +1,5 @@
 import React from "react"
+import { useSelector } from "react-redux"
 
 import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -10,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
 import Typography from "@material-ui/core/Typography"
 import FormControl from "@material-ui/core/FormControl"
+import { generateCSV } from "../Lib/generateCSV"
 
 const styles = (theme) => ({
   root: {
@@ -56,6 +58,10 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions)
 
 export default function ExportDialog(props) {
+  const screenData = useSelector((state) => state.screenData)
+
+  const sourceCode = generateCSV(screenData, 32, 16)
+
   return (
     <div>
       <Dialog
@@ -67,7 +73,9 @@ export default function ExportDialog(props) {
         <DialogTitle id="customized-dialog-title">Export Screen</DialogTitle>
         <DialogContent dividers>
           <FormControl component="fieldset">
-            <textarea cols="150" rows="40" style={{fontSize:11}}></textarea>
+            <textarea cols="150" rows="40" style={{ fontSize: 11 }}>
+              {sourceCode}
+            </textarea>
           </FormControl>
         </DialogContent>
         <DialogActions>
@@ -82,7 +90,10 @@ export default function ExportDialog(props) {
             autoFocus
             color="primary"
             onClick={() => {
-              props.actionHandler()
+              props.actionHandler({
+                filename: "screen.csv",
+                content: sourceCode,
+              })
             }}
           >
             Export

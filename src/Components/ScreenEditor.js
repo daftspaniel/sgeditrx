@@ -40,7 +40,7 @@ const ScreenEditor = () => {
         }
       }
     }
-  }, 500)
+  }, 200)
 
   return (
     <div>
