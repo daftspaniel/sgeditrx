@@ -11,8 +11,6 @@ import CloseIcon from "@material-ui/icons/Close"
 import Typography from "@material-ui/core/Typography"
 import FormControl from "@material-ui/core/FormControl"
 
-
-
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -60,11 +58,16 @@ const DialogActions = withStyles((theme) => ({
 export default function ExportDialog(props) {
   return (
     <div>
-      <Dialog aria-labelledby="customized-dialog-title" open={true}>
+      <Dialog
+        aria-labelledby="customized-dialog-title"
+        open={true}
+        fullWidth={true}
+        maxWidth={"md"}
+      >
         <DialogTitle id="customized-dialog-title">Export Screen</DialogTitle>
         <DialogContent dividers>
           <FormControl component="fieldset">
-            <textarea></textarea>
+            <textarea cols="150" rows="40" style={{fontSize:11}}></textarea>
           </FormControl>
         </DialogContent>
         <DialogActions>

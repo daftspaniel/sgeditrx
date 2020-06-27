@@ -9,7 +9,7 @@ import { CardHeader } from "@material-ui/core"
 
 import ClearDialogContainer from "../Dialogs/ClearDialogContainer"
 import ExportDialogContainer from "../Dialogs/ExportDialogContainer"
-import { showClearDialog } from "../State/ScreenActions"
+import { showClearDialog, showExportDialog } from "../State/ScreenActions"
 
 const LhsPanel = () => {
   const dispatch = useDispatch()
@@ -17,9 +17,11 @@ const LhsPanel = () => {
   const displayClearDialog = useSelector(
     (state) => state.transient.showingClearDialog
   )
-    const displayExportDialog = useSelector(
-    (state) => state.transient.displayExportDialog
+  const displayExportDialog = useSelector(
+    (state) => state.transient.showingExportDialog
   )
+
+  console.log(displayExportDialog)
 
   return (
     <Card className="LHSPanelContainer" elevation={12}>
@@ -34,7 +36,11 @@ const LhsPanel = () => {
             Clear...
           </Button>
           <br />
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => dispatch(showExportDialog())}
+          >
             Export...
           </Button>
         </div>
