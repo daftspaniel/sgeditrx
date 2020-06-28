@@ -11,7 +11,7 @@ const ExportDialogContainer = () => {
     downloader.setAttribute(
       "href",
       "data:text/plain;charset=utf-8," +
-      encodeURIComponent(options.contents)
+      encodeURIComponent(options.content)
     )
     downloader.setAttribute("download", options.filename)
     downloader.click()

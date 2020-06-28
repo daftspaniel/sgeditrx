@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import { useSelector } from "react-redux"
 
+import { makeStyles } from "@material-ui/core/styles"
 import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
@@ -12,6 +13,7 @@ import CloseIcon from "@material-ui/icons/Close"
 import Typography from "@material-ui/core/Typography"
 import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
+import TextField from "@material-ui/core/TextField"
 import MenuItem from "@material-ui/core/MenuItem"
 
 import { generateCSV } from "../Lib/generateCSV"
@@ -62,12 +64,39 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions)
 
+const useStyles = makeStyles((theme) => ({
+  exportType: {
+    width: "30%",
+  },
+  downloadName: {
+    width: "30%",
+  },
+  importButton: {
+    width: "30%",
+  },
+  controlRow: { display: "flex", justifyContent: "space-between" },
+}))
+
 export default function ExportDialog(props) {
   const screenData = useSelector((state) => state.screenData)
+  const classes = useStyles()
+
+  let [exportType, setExportType] = useState(1)
+  let [exportFilename, setExportFilename] = useState("screendata.txt")
 
   const sourceCode = generateCSV(screenData, 32, 16)
   const sourceBASIC = generateBASIC(screenData, 32, 16)
   const sourceASM = generateASM(screenData, 32, 16)
+
+  const changeExportType = (event) => {
+    setExportType(event.target.value)
+  }
+
+  const getExportCode = () => {
+    if (exportType === 1) return sourceBASIC
+    if (exportType === 2) return sourceCode
+    if (exportType === 3) return sourceASM
+  }
 
   return (
     <div>
@@ -80,14 +109,31 @@ export default function ExportDialog(props) {
         <DialogTitle id="customized-dialog-title">Export Screen</DialogTitle>
         <DialogContent dividers>
           <FormControl component="fieldset">
-            <Select>
-              <MenuItem value={1}>BASIC</MenuItem>
-              <MenuItem value={2}>CSV</MenuItem>
-              <MenuItem value={3}>ASM</MenuItem>
-            </Select>
-            <textarea cols="150" rows="40" style={{ fontSize: 11 }}>
-              {sourceCode}
-            </textarea>
+            <div className={classes.controlRow}>
+              <Select
+                onChange={changeExportType}
+                value={exportType}
+                className={classes.exportType}
+              >
+                <MenuItem value={1}>BASIC</MenuItem>
+                <MenuItem value={2}>CSV</MenuItem>
+                <MenuItem value={3}>ASM</MenuItem>
+              </Select>
+              <TextField
+                className={classes.downloadName}
+                value={exportFilename}
+                onChange={(e) => setExportFilename(e.target.value)}
+              ></TextField>
+              {exportType === 2 && (
+                <Button className={classes.importButton}>Import</Button>
+              )}
+            </div>
+            <textarea
+              cols="150"
+              rows="40"
+              style={{ fontSize: 11, marginTop: 8 }}
+              value={getExportCode()}
+            ></textarea>
           </FormControl>
         </DialogContent>
         <DialogActions>
@@ -103,8 +149,8 @@ export default function ExportDialog(props) {
             color="primary"
             onClick={() => {
               props.actionHandler({
-                filename: "screen.csv",
-                content: sourceCode,
+                filename: exportFilename,
+                content: getExportCode(),
               })
             }}
           >
