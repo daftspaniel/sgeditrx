@@ -11,7 +11,12 @@ import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
 import Typography from "@material-ui/core/Typography"
 import FormControl from "@material-ui/core/FormControl"
+import Select from "@material-ui/core/Select"
+import MenuItem from "@material-ui/core/MenuItem"
+
 import { generateCSV } from "../Lib/generateCSV"
+import { generateBASIC } from "../Lib/GenerateBasic"
+import { generateASM } from "../Lib/GenerateASM"
 
 const styles = (theme) => ({
   root: {
@@ -61,6 +66,8 @@ export default function ExportDialog(props) {
   const screenData = useSelector((state) => state.screenData)
 
   const sourceCode = generateCSV(screenData, 32, 16)
+  const sourceBASIC = generateBASIC(screenData, 32, 16)
+  const sourceASM = generateASM(screenData, 32, 16)
 
   return (
     <div>
@@ -73,6 +80,11 @@ export default function ExportDialog(props) {
         <DialogTitle id="customized-dialog-title">Export Screen</DialogTitle>
         <DialogContent dividers>
           <FormControl component="fieldset">
+            <Select>
+              <MenuItem value={1}>BASIC</MenuItem>
+              <MenuItem value={2}>CSV</MenuItem>
+              <MenuItem value={3}>ASM</MenuItem>
+            </Select>
             <textarea cols="150" rows="40" style={{ fontSize: 11 }}>
               {sourceCode}
             </textarea>
