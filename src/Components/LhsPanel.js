@@ -21,8 +21,6 @@ const LhsPanel = () => {
     (state) => state.transient.showingExportDialog
   )
 
-  console.log(displayExportDialog)
-
   return (
     <Card className="LHSPanelContainer" elevation={12}>
       <CardHeader title="SGEDIT v4" subheader="The Retro Screen Designer" />

@@ -17,8 +17,8 @@ const initialState = {
 }
 
 export const screenReducer = function (state, action) {
-  console.log(state)
-  console.log(action)
+  // console.log(state)
+  // console.log(action)
   switch (action.type) {
     case ACTIONS.SET_CHAR:
       const screenData = state.screenData

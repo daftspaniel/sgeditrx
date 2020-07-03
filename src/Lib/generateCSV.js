@@ -6,7 +6,7 @@ export const generateCSV = (data, columns, rows) => {
     for (let i = 0; i < columns; i++) {
       dataline += parseInt(data[i][j].value, 10) + ","
     }
-    fullcode += `${dataline.substr(0, dataline.length - 1)}\r\n`
+    fullcode += `${dataline.substr(0, dataline.length - 1)},\r\n`
   }
   return fullcode + "\r\n"
 }

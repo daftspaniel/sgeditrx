@@ -33,5 +33,20 @@ export const clearScreen = (action) => {
 }
 
 export const importCsvData = (action) => {
-  console.log("importCsvData", importCsvData)
+  const rows = SG4.rows
+  const columns = SG4.columns
+  const data = buildGrid(SG4.columns, SG4.rows, SG4.defaultCharacter)
+  let csvdata = action.data
+  let index = 0
+  let newdata = csvdata.replace("\r\n", "").replace("\n", "").replace("\r", "")
+  newdata = newdata.split(",")
+
+  for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < columns; i++) {
+      data[i][j].value = newdata[index]
+      index++
+    }
+  }
+
+  return data
 }
