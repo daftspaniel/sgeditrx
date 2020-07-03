@@ -33,18 +33,18 @@ export default function ExportDialog(props) {
 
   let [exportType, setExportType] = useState(1)
   let [exportFilename, setExportFilename] = useState("screendata.txt")
+  let [csvData, setCsvData] = useState(generateCSV(screenData, 32, 16))
 
-  const sourceCode = generateCSV(screenData, 32, 16)
+  const sourceCSV = csvData
   const sourceBASIC = generateBASIC(screenData, 32, 16)
   const sourceASM = generateASM(screenData, 32, 16)
 
-  const changeExportType = (event) => {
+  const changeExportType = (event) => 
     setExportType(event.target.value)
-  }
 
   const getExportCode = () => {
     if (exportType === 1) return sourceBASIC
-    if (exportType === 2) return sourceCode
+    if (exportType === 2) return sourceCSV
     if (exportType === 3) return sourceASM
   }
 
@@ -75,7 +75,12 @@ export default function ExportDialog(props) {
                 onChange={(e) => setExportFilename(e.target.value)}
               ></TextField>
               {exportType === 2 && (
-                <Button className={classes.importButton}>Import</Button>
+                <Button
+                  className={classes.importButton}
+                  onClick={() => props.importHandler(csvData)}
+                >
+                  Import
+                </Button>
               )}
             </div>
             <textarea
@@ -83,6 +88,7 @@ export default function ExportDialog(props) {
               rows="40"
               style={{ fontSize: 11, marginTop: 8 }}
               value={getExportCode()}
+              onChange={(e) => setCsvData(e.target.value)}
             ></textarea>
           </FormControl>
         </DialogContent>

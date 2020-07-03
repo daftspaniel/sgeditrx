@@ -1,7 +1,7 @@
 import { ACTIONS } from "./ScreenActions"
 import { buildGrid } from "../Lib/Util"
 import { SG4 } from "../Common/ScreenModes"
-import { clearScreen } from "./screen-helper"
+import { clearScreen, importCsvData } from "./screen-helper"
 
 const transientInitialState = {
   showingClearDialog: false,
@@ -34,19 +34,20 @@ export const screenReducer = function (state, action) {
     case ACTIONS.HIDE_CLEAR_DIALOG:
       return { ...state, transient: { showingClearDialog: false } }
     case ACTIONS.SHOW_EXPORT_DIALOG:
-      console.log('HERE')
       return { ...state, transient: { showingExportDialog: true } }
     case ACTIONS.HIDE_EXPORT_DIALOG:
       return { ...state, transient: { showingExportDialog: false } }
     case ACTIONS.CLEAR_SCREEN:
       return save({ ...state, screenData: clearScreen(action) })
+    case ACTIONS.IMPORT_CSV:
+      return save({ ...state, screenData: importCsvData(action) })
     default:
       const isSavedState = localStorage.sgedit4State
       state = isSavedState
         ? JSON.parse(localStorage.sgedit4State)
         : initialState
       if (isSavedState) {
-        state = {...state, transient: transientInitialState}
+        state = { ...state, transient: transientInitialState }
       }
 
       return state

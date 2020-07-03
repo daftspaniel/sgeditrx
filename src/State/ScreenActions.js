@@ -7,6 +7,7 @@ export const ACTIONS = {
   CLEAR_SCREEN: "CLEAR_SCREEN",
   SHOW_EXPORT_DIALOG: "SHOW_EXPORT_DIALOG",
   HIDE_EXPORT_DIALOG: "HIDE_EXPORT_DIALOG",
+  IMPORT_CSV: "IMPORT_CSV",
 }
 
 const _setPrimaryChar = (character) => {
@@ -41,6 +42,10 @@ const _hideExportDialog = () => {
   return { type: ACTIONS.HIDE_EXPORT_DIALOG }
 }
 
+const _importCsvData = (data) => {
+  return { type: ACTIONS.IMPORT_CSV, data }
+}
+
 export const setChar = (data) => _setChar(data)
 
 export const setPrimaryChar = (character) => _setPrimaryChar(character)
@@ -56,3 +61,5 @@ export const clearScreen = (options) => _clearScreen(options)
 export const showExportDialog = () => _showExportDialog()
 
 export const hideExportDialog = () => _hideExportDialog()
+
+export const importCsvData = (data) => _importCsvData(data)

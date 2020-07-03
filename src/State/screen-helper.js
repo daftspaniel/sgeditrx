@@ -22,12 +22,16 @@ export const getTestCard = () => {
 
 export const clearScreen = (action) => {
   if (action.options.method === "0") {
-    return  getClearScreen(action.options.character)
-  } 
-  if (action.options.method === "1") {
-    return  getClearScreen(action.options.character)
-  } 
-  if (action.options.method === "2") {
-    return  getTestCard()
+    return getClearScreen(action.options.character)
   }
+  if (action.options.method === "1") {
+    return getClearScreen(action.options.character)
+  }
+  if (action.options.method === "2") {
+    return getTestCard()
+  }
+}
+
+export const importCsvData = (action) => {
+  console.log("importCsvData", importCsvData)
 }
