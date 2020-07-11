@@ -2,6 +2,7 @@ export const ACTIONS = {
   SET_PRIMARY_CHAR: "SET_PRIMARY_CHAR",
   SET_SECONDARY_CHAR: "SET_SECONDARY_CHAR",
   SET_CHAR: "SET_CHAR",
+  SET_MODE: "SET_MODE",
   SHOW_CLEAR_DIALOG: "SHOW_CLEAR_DIALOG",
   HIDE_CLEAR_DIALOG: "HIDE_CLEAR_DIALOG",
   CLEAR_SCREEN: "CLEAR_SCREEN",
@@ -20,6 +21,10 @@ const _setSecondaryChar = (character) => {
 
 const _setChar = (data) => {
   return { type: ACTIONS.SET_CHAR, data }
+}
+
+const _setMode = (modeId) => {
+  return { type: ACTIONS.SET_MODE, modeId }
 }
 
 const _showClearDialog = () => {
@@ -47,6 +52,8 @@ const _importCsvData = (data) => {
 }
 
 export const setChar = (data) => _setChar(data)
+
+export const setMode = (data) => _setMode(data)
 
 export const setPrimaryChar = (character) => _setPrimaryChar(character)
 

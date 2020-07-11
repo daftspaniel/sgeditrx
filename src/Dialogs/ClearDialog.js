@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
 
 import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -77,77 +78,97 @@ const optionStyle = {
   justifyContent: "space-between",
   alignItems: "center",
 }
+const modeStyle = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: 50,
+}
 
 const labelStyle = { maxWidth: 100, minWidth: 100 }
 
 export default function ClearDialog(props) {
   let [character, setCharacter] = useState(128)
   let [selection, setSelection] = useState("0")
+  const screenMode = useSelector((state) => state.activeMode)
+  let [mode, setMode] = useState(screenMode.id)
   let [cls, setCls] = useState(1)
   const handleChange = (e) => setSelection(e.target.value)
-  const handleClsChange = (e) => {
-    setCls(e.target.value)
-  }
+  const handleClsChange = (e) => setCls(e.target.value)
+  const handleModeChange = (e) => setMode(e.target.value)
+  
   return (
     <div>
       <Dialog aria-labelledby="customized-dialog-title" open={true}>
         <DialogTitle id="customized-dialog-title">Clear Screen</DialogTitle>
         <DialogContent dividers>
-          <FormControl component="fieldset">
-            <div style={optionStyle}>
-              <Radio
-                checked={selection === "0"}
-                onChange={handleChange}
-                value="0"
-                name="cwb-test-card"
-              />
-              <div style={labelStyle}>CLS</div>
-              <div>
-                <Select
-                  value={cls}
-                  onChange={handleClsChange}
-                  style={{ width: 100, backgroundColor: colours[cls].colour }}
-                >
-                  {colours.map((colour) => {
-                    return (
-                      <MenuItem
-                        key={colour.value}
-                        value={colour.value}
-                        style={{ width: 100, backgroundColor: colour.colour }}
-                      >
-                        &nbsp;
-                      </MenuItem>
-                    )
-                  })}
-                </Select>
-              </div>
+          <div style={modeStyle}>
+            <div style={labelStyle}>MODE</div>
+            <div>
+              <Select
+                style={{ width: 180 }}
+                value={mode}
+                onChange={handleModeChange}
+              >
+                <MenuItem value={0}>SG4 32 by 16</MenuItem>
+                <MenuItem value={1}>Coco VGA 64 by 32</MenuItem>
+              </Select>
             </div>
-            <div style={optionStyle}>
-              <Radio
-                checked={selection === "1"}
-                onChange={handleChange}
-                value="1"
-                name="cwb-test-card"
-              />
-              <div style={labelStyle}>Fill</div>
-              <TextField
-                id="standard-basic"
-                value={character}
-                onChange={(e) => setCharacter(e.target.value)}
-                style={{ maxWidth: 100 }}
-              />
+          </div>
+          <div style={optionStyle}>
+            <Radio
+              checked={selection === "0"}
+              onChange={handleChange}
+              value="0"
+              name="cwb-test-card"
+            />
+            <div style={labelStyle}>CLS</div>
+            <div>
+              <Select
+                value={cls}
+                onChange={handleClsChange}
+                style={{ width: 100, backgroundColor: colours[cls].colour }}
+              >
+                {colours.map((colour) => {
+                  return (
+                    <MenuItem
+                      key={colour.value}
+                      value={colour.value}
+                      style={{ width: 100, backgroundColor: colour.colour }}
+                    >
+                      &nbsp;
+                    </MenuItem>
+                  )
+                })}
+              </Select>
             </div>
-            <div style={optionStyle}>
-              <Radio
-                checked={selection === "2"}
-                onChange={handleChange}
-                value="2"
-                name="rb-test-card"
-              />
-              <div style={{ minWidth: 100 }}>Test Card</div>
-              <div style={{ minWidth: 100 }}>&nbsp;</div>
-            </div>
-          </FormControl>
+          </div>
+          <div style={optionStyle}>
+            <Radio
+              checked={selection === "1"}
+              onChange={handleChange}
+              value="1"
+              name="cwb-test-card"
+            />
+            <div style={labelStyle}>Fill</div>
+            <TextField
+              id="standard-basic"
+              value={character}
+              onChange={(e) => setCharacter(e.target.value)}
+              style={{ maxWidth: 100 }}
+            />
+          </div>
+          <div style={optionStyle}>
+            <Radio
+              checked={selection === "2"}
+              onChange={handleChange}
+              value="2"
+              name="rb-test-card"
+            />
+            <div style={{ minWidth: 100 }}>Test Card</div>
+            <div style={{ minWidth: 100 }}>&nbsp;</div>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button
@@ -161,7 +182,11 @@ export default function ClearDialog(props) {
             autoFocus
             color="primary"
             onClick={() => {
-              const options = { method: selection, character }
+              const options = {
+                method: selection,
+                character,
+                modeId: mode,
+              }
               if (selection === "0") options.character = colours[cls].chr
               props.actionHandler(options)
             }}

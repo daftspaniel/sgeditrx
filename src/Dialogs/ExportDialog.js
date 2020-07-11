@@ -29,15 +29,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ExportDialog(props) {
   const screenData = useSelector((state) => state.screenData)
+  const screenMode = useSelector((state) => state.activeMode)
   const classes = useStyles()
 
   let [exportType, setExportType] = useState(1)
   let [exportFilename, setExportFilename] = useState("screendata.txt")
-  let [csvData, setCsvData] = useState(generateCSV(screenData, 32, 16))
+  let [csvData, setCsvData] = useState(generateCSV(screenData, screenMode.columns, screenMode.rows))
 
   const sourceCSV = csvData
-  const sourceBASIC = generateBASIC(screenData, 32, 16)
-  const sourceASM = generateASM(screenData, 32, 16)
+  const sourceBASIC = generateBASIC(screenData, screenMode.columns, screenMode.rows)
+  const sourceASM = generateASM(screenData, screenMode.columns, screenMode.rows)
 
   const changeExportType = (event) => 
     setExportType(event.target.value)

@@ -16,6 +16,7 @@ const ScreenEditor = () => {
   const primaryCharacter = useSelector((state) => state.primaryCharacter)
   const secondaryCharacter = useSelector((state) => state.secondaryCharacter)
   const screenData = useSelector((state) => state.screenData)
+  const screenMode = useSelector((state) => state.activeMode)
   const modeDescription = useSelector((state) => state.modeDescription)
   const dispatch = useDispatch()
 
@@ -26,10 +27,10 @@ const ScreenEditor = () => {
       context.imageSmoothingEnabled = false
     }
 
-    for (let j = 0; j < 16; j++) {
-      for (let i = 0; i < 32; i++) {
-        const x = i * 16
-        const y = j * 24
+    for (let j = 0; j < screenMode.rows; j++) {
+      for (let i = 0; i < screenMode.columns; i++) {
+        const x = i * screenMode.pixelWidth
+        const y = j * screenMode.pixelHeight
         if (screenData) {
           const ch = screenData[i][j].value
           const hex = intToHex(ch)
@@ -59,10 +60,10 @@ const ScreenEditor = () => {
           onMouseDown={(e) => {
             if (e.button === 2) {
               mouseState.rightButtonDown = true
-              canvasClickHandler(e, dispatch, secondaryCharacter)
+              canvasClickHandler(screenMode, e, dispatch, secondaryCharacter)
             } else if (e.button === 0) {
               mouseState.leftButtonDown = true
-              canvasClickHandler(e, dispatch, primaryCharacter)
+              canvasClickHandler(screenMode, e, dispatch, primaryCharacter)
             }
           }}
           onMouseLeave={(e) => {
@@ -73,10 +74,16 @@ const ScreenEditor = () => {
             e.preventDefault()
           }}
           onMouseMove={(e) =>
-            mouseMoveHandler(e, dispatch, primaryCharacter, secondaryCharacter)
+            mouseMoveHandler(
+              screenMode,
+              e,
+              dispatch,
+              primaryCharacter,
+              secondaryCharacter
+            )
           }
-          width={512}
-          height={384}
+          width={screenMode ? screenMode.columns * screenMode.pixelWidth : 512}
+          height={screenMode ? screenMode.rows * screenMode.pixelHeight : 384}
         ></canvas>
       </Card>
     </div>
@@ -84,6 +91,7 @@ const ScreenEditor = () => {
 }
 
 const mouseMoveHandler = (
+  screenMode,
   e,
   dispatch,
   primaryCharacter,
@@ -98,17 +106,21 @@ const mouseMoveHandler = (
     character = secondaryCharacter
   }
   if (!image) return
-  drawChar(e, dispatch, image, character)
+  drawChar(screenMode, e, dispatch, image, character)
 }
 
-const canvasClickHandler = (e, dispatch, character) => {
+const canvasClickHandler = (screenMode, e, dispatch, character) => {
   const image = document.getElementById(character)
-  drawChar(e, dispatch, image, character)
+  drawChar(screenMode, e, dispatch, image, character)
 }
 
-const drawChar = (e, dispatch, image, character) => {
-  const { pos, cellPos } = getElementClickXY(e, 16, 24)
-  if (cellPos.x < 32 && cellPos.y < 16) {
+const drawChar = (screenMode, e, dispatch, image, character) => {
+  const { pos, cellPos } = getElementClickXY(
+    e,
+    screenMode.pixelWidth,
+    screenMode.pixelHeight
+  )
+  if (cellPos.x < screenMode.columns && cellPos.y < screenMode.rows) {
     context.drawImage(image, pos.x, pos.y)
     dispatch(setChar({ x: cellPos.x, y: cellPos.y, value: character }))
   }

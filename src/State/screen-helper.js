@@ -1,16 +1,18 @@
 import { buildGrid } from "../Lib/Util"
-import { SG4 } from "../Common/ScreenModes"
+import { SG4, getScreenModeById } from "../Common/ScreenModes"
 
-export const getClearScreen = (character) =>
-  buildGrid(SG4.columns, SG4.rows, character)
+export const getClearScreen = (modeId, character) =>{
+  const screenMode = getScreenModeById(modeId)
+  buildGrid(screenMode.columns, screenMode.rows, character)
+}
 
-export const getTestCard = () => {
+export const getTestCard = (modeId) => {
   let char = 0
+  const screenMode = getScreenModeById(modeId)
+  const data = buildGrid(screenMode.columns, screenMode.rows, screenMode.defaultCharacter)
 
-  const data = buildGrid(SG4.columns, SG4.rows, SG4.defaultCharacter)
-
-  for (let y = 0; y < SG4.rows; y++) {
-    for (let x = 0; x < SG4.columns; x++) {
+  for (let y = 0; y < screenMode.rows; y++) {
+    for (let x = 0; x < screenMode.columns; x++) {
       data[x][y].value = char
       char++
       if (char > 255) char = 0
@@ -21,14 +23,15 @@ export const getTestCard = () => {
 }
 
 export const clearScreen = (action) => {
+  const {modeId, character} = action.options
   if (action.options.method === "0") {
-    return getClearScreen(action.options.character)
+    return getClearScreen(modeId, character)
   }
   if (action.options.method === "1") {
-    return getClearScreen(action.options.character)
+    return getClearScreen(modeId, character)
   }
   if (action.options.method === "2") {
-    return getTestCard()
+    return getTestCard(modeId)
   }
 }
 
