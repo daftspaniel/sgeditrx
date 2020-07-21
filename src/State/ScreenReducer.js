@@ -1,7 +1,7 @@
 import { ACTIONS } from "./ScreenActions"
 import { buildGrid } from "../Lib/Util"
 import { SG4, getScreenModeById } from "../Common/ScreenModes"
-import { clearScreen, importCsvData } from "./screen-helper"
+import { clearScreen, scrollScreen, importCsvData } from "./screen-helper"
 
 const transientInitialState = {
   showingClearDialog: false,
@@ -42,6 +42,13 @@ export const screenReducer = function (state, action) {
       return { ...state, transient: { showingExportDialog: false } }
     case ACTIONS.CLEAR_SCREEN:
       return save({ ...state, screenData: clearScreen(action) })
+    case ACTIONS.SCROLL:
+      return save({
+        ...state,
+        screenData: [
+          ...scrollScreen(action.direction, state.screenData, state.activeMode),
+        ],
+      })
     case ACTIONS.IMPORT_CSV:
       return save({ ...state, screenData: importCsvData(action) })
     default:

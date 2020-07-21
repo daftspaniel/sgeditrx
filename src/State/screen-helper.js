@@ -1,7 +1,7 @@
 import { buildGrid } from "../Lib/Util"
 import { SG4, getScreenModeById } from "../Common/ScreenModes"
 
-export const getClearScreen = (modeId, character) =>{
+export const getClearScreen = (modeId, character) => {
   const screenMode = getScreenModeById(modeId)
   buildGrid(screenMode.columns, screenMode.rows, character)
 }
@@ -9,7 +9,11 @@ export const getClearScreen = (modeId, character) =>{
 export const getTestCard = (modeId) => {
   let char = 0
   const screenMode = getScreenModeById(modeId)
-  const data = buildGrid(screenMode.columns, screenMode.rows, screenMode.defaultCharacter)
+  const data = buildGrid(
+    screenMode.columns,
+    screenMode.rows,
+    screenMode.defaultCharacter
+  )
 
   for (let y = 0; y < screenMode.rows; y++) {
     for (let x = 0; x < screenMode.columns; x++) {
@@ -23,7 +27,7 @@ export const getTestCard = (modeId) => {
 }
 
 export const clearScreen = (action) => {
-  const {modeId, character} = action.options
+  const { modeId, character } = action.options
   if (action.options.method === "0") {
     return getClearScreen(modeId, character)
   }
@@ -51,5 +55,56 @@ export const importCsvData = (action) => {
     }
   }
 
+  return data
+}
+
+export const scrollScreen = (direction, data, mode) => {
+  let tmp = []
+
+  if (direction === "u") {
+    for (let i = 0; i < mode.columns; i++) {
+      tmp.push(data[i][0].value)
+    }
+
+    for (let j = 0; j < mode.rows - 1; j++) {
+      for (let i = 0; i < mode.columns; i++) {
+        data[i][j].value = data[i][j + 1].value
+      }
+    }
+
+    for (let i = 0; i < mode.columns; i++) {
+      data[i][mode.rows - 1].value = tmp[i]
+    }
+  } else if (direction === "d") {
+    for (let i = 0; i < mode.columns; i++) {
+      tmp.push(data[i][mode.rows - 1].value)
+    }
+
+    for (let j = mode.rows - 1; j > 0; j--) {
+      for (let i = 0; i < mode.columns; i++) {
+        data[i][j].value = data[i][j - 1].value
+      }
+    }
+
+    for (let i = 0; i < mode.columns; i++) {
+      data[i][0].value = tmp[i]
+    }
+  } else if (direction === "l") {
+    for (let j = 0; j < mode.rows; j++) {
+      let tmp = data[0][j].value
+      for (let i = 1; i < mode.columns; i++) {
+        data[i - 1][j].value = data[i][j].value
+      }
+      data[mode.columns - 1][j].value = tmp
+    }
+  } else if (direction === "r") {
+    for (let j = 0; j < mode.rows; j++) {
+      let tmp = data[mode.columns - 1][j].value
+      for (let i = mode.columns - 1; i > 0; i--) {
+        data[i][j].value = data[i - 1][j].value
+      }
+      data[0][j].value = tmp
+    }
+  }
   return data
 }

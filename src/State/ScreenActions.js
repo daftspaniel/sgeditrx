@@ -9,6 +9,7 @@ export const ACTIONS = {
   SHOW_EXPORT_DIALOG: "SHOW_EXPORT_DIALOG",
   HIDE_EXPORT_DIALOG: "HIDE_EXPORT_DIALOG",
   IMPORT_CSV: "IMPORT_CSV",
+  SCROLL: "SCROLL"
 }
 
 const _setPrimaryChar = (character) => {
@@ -39,6 +40,10 @@ const _clearScreen = (options) => {
   return { type: ACTIONS.CLEAR_SCREEN, options }
 }
 
+const _scrollScreen = (direction) => {
+  return { type: ACTIONS.SCROLL, direction }
+}
+
 const _showExportDialog = () => {
   return { type: ACTIONS.SHOW_EXPORT_DIALOG }
 }
@@ -64,6 +69,8 @@ export const showClearDialog = () => _showClearDialog()
 export const hideClearDialog = () => _hideClearDialog()
 
 export const clearScreen = (options) => _clearScreen(options)
+
+export const scrollScreen = (direction) => _scrollScreen(direction)
 
 export const showExportDialog = () => _showExportDialog()
 

@@ -70,3 +70,22 @@ body {
   width: 150px;
   margin-top: 5px;
 }
+
+.ScrollPanel {
+  display: flex;
+  margin-top: 10px;
+}
+
+.MirrorPanel {
+  display: flex;
+  margin-top: 10px;
+}
+
+.ScrollButton {
+  max-width: 35px;
+  border: 1px solid red;
+}
+
+.Clickable {
+  cursor: pointer;
+}
