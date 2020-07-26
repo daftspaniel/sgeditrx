@@ -3,7 +3,7 @@ import { SG4, getScreenModeById } from '../Common/ScreenModes'
 
 export const getClearScreen = (modeId, character) => {
   const screenMode = getScreenModeById(modeId)
-  buildGrid(screenMode.columns, screenMode.rows, character)
+  return buildGrid(screenMode.columns, screenMode.rows, character)
 }
 
 export const getTestCard = (modeId) => {

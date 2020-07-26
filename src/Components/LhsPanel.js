@@ -33,7 +33,7 @@ const LhsPanel = () => {
 
   return (
     <Card className="LHSPanelContainer" elevation={12}>
-      <CardHeader title="SGEDIT v4" subheader="The Retro Screen Designer" />
+      <CardHeader title="SGEDIT v4" subheader="Retro Screen Designer" />
       <div className="LHSPanel">
         <div className="ButtonColumn">
           <Button
