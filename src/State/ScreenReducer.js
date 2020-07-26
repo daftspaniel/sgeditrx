@@ -1,7 +1,11 @@
-import { ACTIONS } from "./ScreenActions"
-import { buildGrid } from "../Lib/Util"
-import { SG4, getScreenModeById } from "../Common/ScreenModes"
-import { clearScreen, scrollScreen, importCsvData } from "./screen-helper"
+import { ACTIONS } from './ScreenActions'
+import { buildGrid } from '../Lib/Util'
+import { SG4, getScreenModeById } from '../Common/ScreenModes'
+import {
+  clearScreen,
+  mirrorScreen,
+  scrollScreen,
+} from './screen-helper'
 
 const transientInitialState = {
   showingClearDialog: false,
@@ -49,8 +53,13 @@ export const screenReducer = function (state, action) {
           ...scrollScreen(action.direction, state.screenData, state.activeMode),
         ],
       })
-    case ACTIONS.IMPORT_CSV:
-      return save({ ...state, screenData: importCsvData(action) })
+    case ACTIONS.MIRROR:
+      return save({
+        ...state,
+        screenData: [
+          ...mirrorScreen(action.direction, state.screenData, state.activeMode),
+        ],
+      })
     default:
       const isSavedState = localStorage.sgedit4State
       state = isSavedState

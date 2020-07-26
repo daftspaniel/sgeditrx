@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 
 import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -14,7 +14,6 @@ import Typography from "@material-ui/core/Typography"
 import Radio from "@material-ui/core/Radio"
 import Select from "@material-ui/core/Select"
 import MenuItem from "@material-ui/core/MenuItem"
-import FormControl from "@material-ui/core/FormControl"
 
 const colours = [
   { value: 0, colour: "#111111", chr: 128 },

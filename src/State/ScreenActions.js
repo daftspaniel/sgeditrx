@@ -1,15 +1,16 @@
 export const ACTIONS = {
-  SET_PRIMARY_CHAR: "SET_PRIMARY_CHAR",
-  SET_SECONDARY_CHAR: "SET_SECONDARY_CHAR",
-  SET_CHAR: "SET_CHAR",
-  SET_MODE: "SET_MODE",
-  SHOW_CLEAR_DIALOG: "SHOW_CLEAR_DIALOG",
-  HIDE_CLEAR_DIALOG: "HIDE_CLEAR_DIALOG",
-  CLEAR_SCREEN: "CLEAR_SCREEN",
-  SHOW_EXPORT_DIALOG: "SHOW_EXPORT_DIALOG",
-  HIDE_EXPORT_DIALOG: "HIDE_EXPORT_DIALOG",
-  IMPORT_CSV: "IMPORT_CSV",
-  SCROLL: "SCROLL"
+  SET_PRIMARY_CHAR: 'SET_PRIMARY_CHAR',
+  SET_SECONDARY_CHAR: 'SET_SECONDARY_CHAR',
+  SET_CHAR: 'SET_CHAR',
+  SET_MODE: 'SET_MODE',
+  SHOW_CLEAR_DIALOG: 'SHOW_CLEAR_DIALOG',
+  HIDE_CLEAR_DIALOG: 'HIDE_CLEAR_DIALOG',
+  CLEAR_SCREEN: 'CLEAR_SCREEN',
+  SHOW_EXPORT_DIALOG: 'SHOW_EXPORT_DIALOG',
+  HIDE_EXPORT_DIALOG: 'HIDE_EXPORT_DIALOG',
+  IMPORT_CSV: 'IMPORT_CSV',
+  SCROLL: 'SCROLL',
+  MIRROR: 'MIRROR',
 }
 
 const _setPrimaryChar = (character) => {
@@ -44,6 +45,10 @@ const _scrollScreen = (direction) => {
   return { type: ACTIONS.SCROLL, direction }
 }
 
+const _mirrorScreen = (direction) => {
+  return { type: ACTIONS.MIRROR, direction }
+}
+
 const _showExportDialog = () => {
   return { type: ACTIONS.SHOW_EXPORT_DIALOG }
 }
@@ -71,6 +76,8 @@ export const hideClearDialog = () => _hideClearDialog()
 export const clearScreen = (options) => _clearScreen(options)
 
 export const scrollScreen = (direction) => _scrollScreen(direction)
+
+export const mirrorScreen = (direction) => _mirrorScreen(direction)
 
 export const showExportDialog = () => _showExportDialog()
 

@@ -1,24 +1,25 @@
-import React from "react"
-import { useDispatch } from "react-redux"
-import { useSelector } from "react-redux"
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-import "../App.css"
-import Card from "@material-ui/core/Card"
-import Button from "@material-ui/core/Button"
-import { CardHeader } from "@material-ui/core"
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward"
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward"
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward"
-import ArrowBackwardIcon from "@material-ui/icons/ArrowBack"
-import FlipIcon from "@material-ui/icons/Flip"
+import '../App.css'
+import Card from '@material-ui/core/Card'
+import Button from '@material-ui/core/Button'
+import { CardHeader } from '@material-ui/core'
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import ArrowBackwardIcon from '@material-ui/icons/ArrowBack'
+import FlipIcon from '@material-ui/icons/Flip'
 
-import ClearDialogContainer from "../Dialogs/ClearDialogContainer"
-import ExportDialogContainer from "../Dialogs/ExportDialogContainer"
+import ClearDialogContainer from '../Dialogs/ClearDialogContainer'
+import ExportDialogContainer from '../Dialogs/ExportDialogContainer'
 import {
+  mirrorScreen,
   showClearDialog,
   showExportDialog,
   scrollScreen,
-} from "../State/ScreenActions"
+} from '../State/ScreenActions'
 
 const LhsPanel = () => {
   const dispatch = useDispatch()
@@ -55,27 +56,36 @@ const LhsPanel = () => {
             <div style={{ width: 65 }}>Scroll</div>
             <ArrowUpwardIcon
               className="Clickable"
-              onClick={() => dispatch(scrollScreen("u"))}
+              onClick={() => dispatch(scrollScreen('u'))}
             />
             <ArrowDownwardIcon
               className="Clickable"
-              onClick={() => dispatch(scrollScreen("d"))}
+              onClick={() => dispatch(scrollScreen('d'))}
             />
             <ArrowBackwardIcon
               className="Clickable"
-              onClick={() => dispatch(scrollScreen("l"))}
+              onClick={() => dispatch(scrollScreen('l'))}
             />
             <ArrowForwardIcon
               className="Clickable"
-              onClick={() => dispatch(scrollScreen("r"))}
+              onClick={() => dispatch(scrollScreen('r'))}
             />
           </div>
           <div className="MirrorPanel">
             <div style={{ width: 65 }}>Mirror</div>
-            <FlipIcon style={{transform: 'rotate(90deg)'}} />
-            <FlipIcon style={{transform: 'rotate(180deg)'}} />
-            <FlipIcon style={{transform: 'rotate(270deg)'}} />
-            <FlipIcon />
+            <FlipIcon
+              style={{ transform: 'rotate(90deg)' }}
+              onClick={() => dispatch(mirrorScreen('TtoB'))}
+            />
+            <FlipIcon
+              style={{ transform: 'rotate(180deg)' }}
+              onClick={() => dispatch(mirrorScreen('RtoL'))}
+            />
+            <FlipIcon
+              style={{ transform: 'rotate(270deg)' }}
+              onClick={() => dispatch(mirrorScreen('BtoT'))}
+            />
+            <FlipIcon onClick={() => dispatch(mirrorScreen('LtoR'))} />
           </div>
         </div>
         {displayClearDialog && <ClearDialogContainer />}
