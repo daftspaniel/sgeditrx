@@ -1,11 +1,7 @@
 import { ACTIONS } from './ScreenActions'
 import { buildGrid } from '../Lib/Util'
 import { SG4, getScreenModeById } from '../Common/ScreenModes'
-import {
-  clearScreen,
-  mirrorScreen,
-  scrollScreen,
-} from './screen-helper'
+import { clearScreen, mirrorScreen, scrollScreen } from './screen-helper'
 
 const transientInitialState = {
   showingClearDialog: false,
@@ -17,6 +13,7 @@ const initialState = {
   secondaryCharacter: 2,
   screenData: buildGrid(SG4.columns, SG4.rows, SG4.defaultCharacter),
   activeMode: SG4,
+  showGrid: false,
   transient: transientInitialState,
 }
 
@@ -44,6 +41,8 @@ export const screenReducer = function (state, action) {
       return { ...state, transient: { showingExportDialog: true } }
     case ACTIONS.HIDE_EXPORT_DIALOG:
       return { ...state, transient: { showingExportDialog: false } }
+    case ACTIONS.SHOW_GRID:
+      return save({ ...state, showGrid: action.flag })
     case ACTIONS.CLEAR_SCREEN:
       return save({ ...state, screenData: clearScreen(action) })
     case ACTIONS.SCROLL:

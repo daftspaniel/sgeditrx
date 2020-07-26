@@ -11,6 +11,9 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import ArrowBackwardIcon from '@material-ui/icons/ArrowBack'
 import FlipIcon from '@material-ui/icons/Flip'
+import Switch from '@material-ui/core/Switch'
+
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 import ClearDialogContainer from '../Dialogs/ClearDialogContainer'
 import ExportDialogContainer from '../Dialogs/ExportDialogContainer'
@@ -30,6 +33,7 @@ const LhsPanel = () => {
   const displayExportDialog = useSelector(
     (state) => state.transient.showingExportDialog
   )
+  const showGrid = useSelector((state) => state.showGrid)
 
   return (
     <Card className="LHSPanelContainer" elevation={12}>
@@ -51,6 +55,18 @@ const LhsPanel = () => {
           >
             Export...
           </Button>
+          <br />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={showGrid}
+                // onChange={handleChange}
+                // name="checkedA"
+                // inputProps={{ 'aria-label': 'secondary checkbox' }}
+              />
+            }
+            label={'Grid'}
+          />
           <br />
           <div className="ScrollPanel">
             <div style={{ width: 65 }}>Scroll</div>

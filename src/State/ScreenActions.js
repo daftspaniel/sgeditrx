@@ -11,6 +11,7 @@ export const ACTIONS = {
   IMPORT_CSV: 'IMPORT_CSV',
   SCROLL: 'SCROLL',
   MIRROR: 'MIRROR',
+  SHOW_GRID: 'SHOW_GRID',
 }
 
 const _setPrimaryChar = (character) => {
@@ -61,6 +62,10 @@ const _importCsvData = (data) => {
   return { type: ACTIONS.IMPORT_CSV, data }
 }
 
+const _showGrid = (flag) => {
+  return { type: ACTIONS.SHOW_GRID, flag }
+}
+
 export const setChar = (data) => _setChar(data)
 
 export const setMode = (data) => _setMode(data)
@@ -84,3 +89,5 @@ export const showExportDialog = () => _showExportDialog()
 export const hideExportDialog = () => _hideExportDialog()
 
 export const importCsvData = (data) => _importCsvData(data)
+
+export const showGrid = (flag) => _showGrid(flag)

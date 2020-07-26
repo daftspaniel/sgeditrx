@@ -1,12 +1,12 @@
-import React from "react"
-import { useSelector, useDispatch } from "react-redux"
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
-import Card from "@material-ui/core/Card"
-import { CardHeader } from "@material-ui/core"
+import Card from '@material-ui/core/Card'
+import { CardHeader } from '@material-ui/core'
 
-import { getElementClickXY } from "../Common/ScreenHelpers"
-import { setChar } from "../State/ScreenActions"
-import { intToHex } from "../Lib/Util"
+import { getElementClickXY } from '../Common/ScreenHelpers'
+import { setChar } from '../State/ScreenActions'
+import { intToHex } from '../Lib/Util'
 
 const mouseState = { leftButtonDown: false, rightButtonDown: false }
 let canvas = null
@@ -18,12 +18,13 @@ const ScreenEditor = () => {
   const screenData = useSelector((state) => state.screenData)
   const screenMode = useSelector((state) => state.activeMode)
   const modeDescription = useSelector((state) => state.modeDescription)
+  const showGrid = useSelector((state) => state.showGrid)
   const dispatch = useDispatch()
 
   setTimeout(() => {
     if (!canvas) {
-      canvas = document.getElementById("sgscreen")
-      context = canvas.getContext("2d")
+      canvas = document.getElementById('sgscreen')
+      context = canvas.getContext('2d')
       context.imageSmoothingEnabled = false
     }
 
