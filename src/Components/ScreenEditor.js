@@ -18,7 +18,7 @@ const ScreenEditor = () => {
   const screenData = useSelector((state) => state.screenData)
   const screenMode = useSelector((state) => state.activeMode)
   const modeDescription = useSelector((state) => state.modeDescription)
-  const showGrid = useSelector((state) => state.showGrid)
+  const showGrid = useSelector((state) => state.showingGrid)
   const dispatch = useDispatch()
 
   setTimeout(() => {
@@ -26,6 +26,8 @@ const ScreenEditor = () => {
       canvas = document.getElementById('sgscreen')
       context = canvas.getContext('2d')
       context.imageSmoothingEnabled = false
+      context.strokeStyle = '#000000'
+      context.lineWidth = 1
     }
 
     for (let j = 0; j < screenMode.rows; j++) {
@@ -42,6 +44,8 @@ const ScreenEditor = () => {
         }
       }
     }
+
+    showGrid && drawGrid(screenMode)
   }, 200)
 
   return (
@@ -61,10 +65,22 @@ const ScreenEditor = () => {
           onMouseDown={(e) => {
             if (e.button === 2) {
               mouseState.rightButtonDown = true
-              canvasClickHandler(screenMode, e, dispatch, secondaryCharacter)
+              canvasClickHandler(
+                screenMode,
+                e,
+                dispatch,
+                secondaryCharacter,
+                showGrid
+              )
             } else if (e.button === 0) {
               mouseState.leftButtonDown = true
-              canvasClickHandler(screenMode, e, dispatch, primaryCharacter)
+              canvasClickHandler(
+                screenMode,
+                e,
+                dispatch,
+                primaryCharacter,
+                showGrid
+              )
             }
           }}
           onMouseLeave={(e) => {
@@ -80,7 +96,8 @@ const ScreenEditor = () => {
               e,
               dispatch,
               primaryCharacter,
-              secondaryCharacter
+              secondaryCharacter,
+              showGrid
             )
           }
           width={screenMode ? screenMode.columns * screenMode.pixelWidth : 512}
@@ -96,7 +113,8 @@ const mouseMoveHandler = (
   e,
   dispatch,
   primaryCharacter,
-  secondaryCharacter
+  secondaryCharacter,
+  showGrid
 ) => {
   let image, character
   if (mouseState.leftButtonDown) {
@@ -107,15 +125,15 @@ const mouseMoveHandler = (
     character = secondaryCharacter
   }
   if (!image) return
-  drawChar(screenMode, e, dispatch, image, character)
+  drawChar(screenMode, e, dispatch, image, character, showGrid)
 }
 
-const canvasClickHandler = (screenMode, e, dispatch, character) => {
+const canvasClickHandler = (screenMode, e, dispatch, character, showGrid) => {
   const image = document.getElementById(character)
-  drawChar(screenMode, e, dispatch, image, character)
+  drawChar(screenMode, e, dispatch, image, character, showGrid)
 }
 
-const drawChar = (screenMode, e, dispatch, image, character) => {
+const drawChar = (screenMode, e, dispatch, image, character, showGrid) => {
   const { pos, cellPos } = getElementClickXY(
     e,
     screenMode.pixelWidth,
@@ -125,6 +143,23 @@ const drawChar = (screenMode, e, dispatch, image, character) => {
     context.drawImage(image, pos.x, pos.y)
     dispatch(setChar({ x: cellPos.x, y: cellPos.y, value: character }))
   }
+  showGrid && drawGrid(screenMode)
 }
 
 export default ScreenEditor
+
+function drawGrid(screenMode) {
+  console.log('Drawing Grid')
+  for (let i = 0; i < screenMode.columns; i++) {
+    context.beginPath()
+    context.moveTo(i * screenMode.pixelWidth, 0)
+    context.lineTo(i * screenMode.pixelWidth, 1000)
+    context.stroke()
+  }
+  for (let i = 0; i < screenMode.rows; i++) {
+    context.beginPath()
+    context.moveTo(0, i * screenMode.pixelHeight)
+    context.lineTo(1000, i * screenMode.pixelHeight)
+    context.stroke()
+  }
+}

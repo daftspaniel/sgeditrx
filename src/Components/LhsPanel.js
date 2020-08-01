@@ -1,6 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import '../App.css'
 import Card from '@material-ui/core/Card'
@@ -22,6 +21,7 @@ import {
   showClearDialog,
   showExportDialog,
   scrollScreen,
+  showGrid,
 } from '../State/ScreenActions'
 
 const LhsPanel = () => {
@@ -33,7 +33,11 @@ const LhsPanel = () => {
   const displayExportDialog = useSelector(
     (state) => state.transient.showingExportDialog
   )
-  const showGrid = useSelector((state) => state.showGrid)
+  const showingGrid = useSelector((state) => state.showingGrid)
+
+  const handleGridChange = (event, value) => {
+    dispatch(showGrid(value))
+  }
 
   return (
     <Card className="LHSPanelContainer" elevation={12}>
@@ -59,8 +63,8 @@ const LhsPanel = () => {
           <FormControlLabel
             control={
               <Switch
-                checked={showGrid}
-                // onChange={handleChange}
+                checked={showingGrid}
+                onChange={handleGridChange}
                 // name="checkedA"
                 // inputProps={{ 'aria-label': 'secondary checkbox' }}
               />
