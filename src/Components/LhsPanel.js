@@ -65,8 +65,6 @@ const LhsPanel = () => {
               <Switch
                 checked={showingGrid}
                 onChange={handleGridChange}
-                // name="checkedA"
-                // inputProps={{ 'aria-label': 'secondary checkbox' }}
               />
             }
             label={'Grid'}
