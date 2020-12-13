@@ -1,6 +1,7 @@
 export const ACTIONS = {
   SET_PRIMARY_CHAR: 'SET_PRIMARY_CHAR',
   SET_SECONDARY_CHAR: 'SET_SECONDARY_CHAR',
+  SET_BRUSH_SIZE: 'SET_BRUSH_SIZE',
   SET_CHAR: 'SET_CHAR',
   SET_MODE: 'SET_MODE',
   SHOW_CLEAR_DIALOG: 'SHOW_CLEAR_DIALOG',
@@ -20,6 +21,10 @@ const _setPrimaryChar = (character) => {
 
 const _setSecondaryChar = (character) => {
   return { type: ACTIONS.SET_SECONDARY_CHAR, newCharacter: character }
+}
+
+const _setBrushSize = (value) => {
+  return { type: ACTIONS.SET_BRUSH_SIZE, brushSize: value }
 }
 
 const _setChar = (data) => {
@@ -73,6 +78,8 @@ export const setMode = (data) => _setMode(data)
 export const setPrimaryChar = (character) => _setPrimaryChar(character)
 
 export const setSecondaryChar = (character) => _setSecondaryChar(character)
+
+export const setBrushSize = value => _setBrushSize(value)
 
 export const showClearDialog = () => _showClearDialog()
 

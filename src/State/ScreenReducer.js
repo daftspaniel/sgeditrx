@@ -15,17 +15,29 @@ const initialState = {
   activeMode: SG4,
   transient: transientInitialState,
   showingGrid: false,
+  brushSize: 2,
 }
 
 export const screenReducer = function (state, action) {
+  // console.log('********************')
   // console.log(state)
   // console.log(action)
+  // console.log('********************')
   switch (action.type) {
     case ACTIONS.SET_CHAR:
       const screenData = state.screenData
       const { data } = action
-      screenData[action.data.x][action.data.y].value = data.value
+      for (let x = 0; x < state.brushSize; x++)
+        for (let y = 0; y < state.brushSize; y++) {
+          if (
+            action.data.x + x < state.activeMode.columns &&
+            action.data.y + y < state.activeMode.rows
+          )
+            screenData[action.data.x + x][action.data.y + y].value = data.value
+        }
       return save({ ...state, screenData })
+    case ACTIONS.SET_BRUSH_SIZE:
+      return save({ ...state, brushSize: action.brushSize })
     case ACTIONS.SET_MODE:
       const activeMode = getScreenModeById(action.modeId)
       return save({ ...state, activeMode: activeMode })

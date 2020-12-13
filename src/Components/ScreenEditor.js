@@ -7,6 +7,7 @@ import { CardHeader } from '@material-ui/core'
 import { getElementClickXY } from '../Common/ScreenHelpers'
 import { setChar } from '../State/ScreenActions'
 import { intToHex } from '../Lib/Util'
+import { yellow } from '@material-ui/core/colors'
 
 const mouseState = { leftButtonDown: false, rightButtonDown: false }
 let canvas = null
@@ -19,7 +20,53 @@ const ScreenEditor = () => {
   const screenMode = useSelector((state) => state.activeMode)
   const modeDescription = useSelector((state) => state.modeDescription)
   const showGrid = useSelector((state) => state.showingGrid)
+  const brushSize = useSelector((state) => state.brushSize)
   const dispatch = useDispatch()
+
+  const drawChar = (screenMode, e, dispatch, image, character, showGrid) => {
+    const { pos, cellPos } = getElementClickXY(
+      e,
+      screenMode.pixelWidth,
+      screenMode.pixelHeight
+    )
+    if (cellPos.x < screenMode.columns && cellPos.y < screenMode.rows) {
+      for (let x = 0; x < brushSize; x++)
+        for (let y = 0; y < brushSize; y++)
+          context.drawImage(
+            image,
+            pos.x + x * screenMode.pixelWidth,
+            pos.y + y * screenMode.pixelHeight
+          )
+
+      dispatch(setChar({ x: cellPos.x, y: cellPos.y, value: character }))
+    }
+    showGrid && drawGrid(screenMode)
+  }
+
+  const mouseMoveHandler = (
+    screenMode,
+    e,
+    dispatch,
+    primaryCharacter,
+    secondaryCharacter,
+    showGrid
+  ) => {
+    let image, character
+    if (mouseState.leftButtonDown) {
+      image = document.getElementById(primaryCharacter)
+      character = primaryCharacter
+    } else if (mouseState.rightButtonDown) {
+      image = document.getElementById(secondaryCharacter)
+      character = secondaryCharacter
+    }
+    if (!image) return
+    drawChar(screenMode, e, dispatch, image, character, showGrid)
+  }
+
+  const canvasClickHandler = (screenMode, e, dispatch, character, showGrid) => {
+    const image = document.getElementById(character)
+    drawChar(screenMode, e, dispatch, image, character, showGrid)
+  }
 
   setTimeout(() => {
     if (!canvas) {
@@ -108,58 +155,25 @@ const ScreenEditor = () => {
   )
 }
 
-const mouseMoveHandler = (
-  screenMode,
-  e,
-  dispatch,
-  primaryCharacter,
-  secondaryCharacter,
-  showGrid
-) => {
-  let image, character
-  if (mouseState.leftButtonDown) {
-    image = document.getElementById(primaryCharacter)
-    character = primaryCharacter
-  } else if (mouseState.rightButtonDown) {
-    image = document.getElementById(secondaryCharacter)
-    character = secondaryCharacter
-  }
-  if (!image) return
-  drawChar(screenMode, e, dispatch, image, character, showGrid)
-}
-
-const canvasClickHandler = (screenMode, e, dispatch, character, showGrid) => {
-  const image = document.getElementById(character)
-  drawChar(screenMode, e, dispatch, image, character, showGrid)
-}
-
-const drawChar = (screenMode, e, dispatch, image, character, showGrid) => {
-  const { pos, cellPos } = getElementClickXY(
-    e,
-    screenMode.pixelWidth,
-    screenMode.pixelHeight
-  )
-  if (cellPos.x < screenMode.columns && cellPos.y < screenMode.rows) {
-    context.drawImage(image, pos.x, pos.y)
-    dispatch(setChar({ x: cellPos.x, y: cellPos.y, value: character }))
-  }
-  showGrid && drawGrid(screenMode)
-}
-
 export default ScreenEditor
 
-function drawGrid(screenMode) {
-  console.log('Drawing Grid')
+const drawGrid = (screenMode) => {
   for (let i = 0; i < screenMode.columns; i++) {
     context.beginPath()
     context.moveTo(i * screenMode.pixelWidth, 0)
-    context.lineTo(i * screenMode.pixelWidth, 1000)
+    context.lineTo(
+      i * screenMode.pixelWidth,
+      screenMode.rows * screenMode.pixelHeight
+    )
     context.stroke()
   }
   for (let i = 0; i < screenMode.rows; i++) {
     context.beginPath()
     context.moveTo(0, i * screenMode.pixelHeight)
-    context.lineTo(1000, i * screenMode.pixelHeight)
+    context.lineTo(
+      screenMode.columns * screenMode.pixelWidth,
+      i * screenMode.pixelHeight
+    )
     context.stroke()
   }
 }

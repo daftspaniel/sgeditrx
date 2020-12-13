@@ -37,6 +37,11 @@ body {
   width: 50px;
 }
 
+.BrushSize {
+  margin-top: 10px;
+  margin-left: 25px;
+}
+
 .CharacterChoices {
   display: flex;
   flex-direction: row;
